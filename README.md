@@ -3,6 +3,7 @@
 SkillNest is a full-stack MERN application that allows users to discover, enroll in, and manage courses, while providing admins with full control over course content through CRUD operations.
 
 🌐 Live Links
+
 🔗 Frontend: https://skillnest-fullstack-course-platform.vercel.app
 
 🔗 Backend: https://skillnest-backend-kvc2.onrender.com
