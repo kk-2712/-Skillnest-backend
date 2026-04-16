@@ -46,7 +46,6 @@ const enrollInCourse = async (req, res) => {
       return res.status(404).json({ message: 'Course not found' });
     }
 
-    // ✅ FIXED: Proper ObjectId comparison
     const alreadyEnrolled = course.studentsEnrolled.some(
       (id) => id.toString() === req.user._id.toString()
     );
@@ -55,11 +54,9 @@ const enrollInCourse = async (req, res) => {
       return res.status(400).json({ message: 'Already enrolled in this course' });
     }
 
-    // Add user to course
     course.studentsEnrolled.push(req.user._id);
     await course.save();
 
-    // Add course to user (no duplicates)
     await User.findByIdAndUpdate(req.user._id, {
       $addToSet: { enrolledCourses: course._id },
     });
@@ -73,8 +70,54 @@ const enrollInCourse = async (req, res) => {
   }
 };
 
+// ✅ UPDATE COURSE
+// @route  PUT /api/courses/:id
+// @access Private + Admin
+const updateCourse = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
+
+    course.title = req.body.title || course.title;
+    course.description = req.body.description || course.description;
+    course.category = req.body.category || course.category;
+    course.price = req.body.price ?? course.price;
+    course.instructor = req.body.instructor || course.instructor;
+
+    const updated = await course.save();
+    res.json(updated);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ✅ DELETE COURSE
+// @route  DELETE /api/courses/:id
+// @access Private + Admin
+const deleteCourse = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
+
+    await course.deleteOne();
+
+    res.json({ message: 'Course removed' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ✅ EXPORTS AT VERY END (IMPORTANT)
 module.exports = {
   createCourse,
   getAllCourses,
   enrollInCourse,
+  updateCourse,
+  deleteCourse,
 };

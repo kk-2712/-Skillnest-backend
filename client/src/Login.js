@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const API = 'https://skillnest-backend-kvc2.onrender.com/api';
+const API = 'http://localhost:5001/api';
 
 function Login({ onLogin }) {
   const [isRegister, setIsRegister] = useState(false);
@@ -31,6 +31,7 @@ function Login({ onLogin }) {
       });
 
       const data = await res.json();
+      console.log("LOGIN RESPONSE:", data);
 
       if (!res.ok) {
         setError(data.message || 'Something went wrong');
@@ -38,7 +39,11 @@ function Login({ onLogin }) {
       }
 
       // Pass token + user info up to App.js
-      onLogin(data.token, { name: data.name, email: data.email });
+    onLogin(data.token, {
+  name: data.name,
+  email: data.email,
+  isAdmin: data.isAdmin || false, 
+});
 
     } catch (err) {
       setError('Cannot connect to server. Is your backend running?');

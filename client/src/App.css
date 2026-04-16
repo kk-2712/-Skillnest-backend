@@ -613,3 +613,16 @@ body { margin: 0; }
   .paths-hero-title { font-size: 22px; }
   .courses-grid, .recommended-grid { grid-template-columns: 1fr; }
 }
+/* Add this anywhere in your existing App.css */
+
+.admin-badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  background: rgba(46, 204, 138, 0.15);
+  color: #2ecc8a;
+  border: 1px solid rgba(46, 204, 138, 0.3);
+  border-radius: 20px;
+}

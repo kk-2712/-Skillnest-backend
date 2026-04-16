@@ -1,7 +1,7 @@
-
 import { useState } from 'react';
 import Login from './Login';
 import Courses from './Courses';
+import Admin from './Admin'; // ✅ ADD THIS
 import './App.css';
 
 function App() {
@@ -27,14 +27,19 @@ function App() {
           <button
             className="theme-toggle"
             onClick={() => setDark(!dark)}
-            aria-label="Toggle dark mode"
           >
             {dark ? '☀ Light' : '☽ Dark'}
           </button>
+
           {user && (
             <>
+              {user.isAdmin && (
+                <span className="admin-badge">Admin</span>
+              )}
               <span className="welcome">Hi, {user.name} 👋</span>
-              <button className="logout-btn" onClick={handleLogout}>Logout</button>
+              <button className="logout-btn" onClick={handleLogout}>
+                Logout
+              </button>
             </>
           )}
         </div>
@@ -43,6 +48,8 @@ function App() {
       <main>
         {!token ? (
           <Login onLogin={handleLogin} />
+        ) : user?.isAdmin ? (   // ✅ ADMIN ROUTING
+          <Admin token={token} />
         ) : (
           <Courses token={token} />
         )}
