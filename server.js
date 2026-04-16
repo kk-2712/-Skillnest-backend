@@ -11,15 +11,13 @@ const app = express();
 /* =========================
    🔥 CORS FIX (IMPORTANT)
 ========================= */
-app.use(
-  cors({
-    origin: [
-      'http://localhost:3000',
-      'https://skillnest-fullstack-course-platform.vercel.app',
-    ],
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://skillnest-fullstack-course-platform.vercel.app'
+  ],
+  credentials: true
+}));
 
 /* =========================
    Middleware
